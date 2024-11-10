@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AthleteAuth - Empowering Athletes</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"></script>
+</head>
+
+<body class="bg-gray-900 text-gray-300">
+
+    <!-- Navbar: Invisible on Hero, Visible on Scroll -->
+    <nav id="navbar" class="fixed top-0 w-full px-4 py-3 bg-transparent transition-colors duration-300 z-20">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="text-xl font-semibold text-purple-400">AthleteAuth</span>
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-gray-300 hover:text-purple-400">Home</a>
+                <a href="#about" class="text-gray-300 hover:text-purple-400">About</a>
+                <a href="#services" class="text-gray-300 hover:text-purple-400">Services</a>
+                <a href="#contact" class="text-gray-300 hover:text-purple-400">Contact</a>
+            </div>
+            <div class="flex space-x-4">
+                <button onclick="showLoginModal('athlete')"
+                    class="text-white bg-purple-500 px-4 py-2 rounded-md hover:bg-purple-600">Athlete Login</button>
+                <button onclick="showLoginModal('employer')"
+                    class="text-white bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600">Employer Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="text-gray-100 py-24 relative flex items-center justify-center"
+        style="min-height: 100vh; background: linear-gradient(to bottom, #1a1a2e, #16213e);">
+        <div class="text-center">
+            <h1 class="text-5xl font-bold" id="hero-title">Empowering Athletes</h1>
+            <p class="mt-4 text-lg" id="hero-text">Connect with opportunities, secure funding, and build your athletic
+                career with AthleteAuth.</p>
+            <button onclick="showLoginModal('athlete')"
+                class="mt-6 bg-purple-500 text-white px-8 py-3 rounded-md font-semibold hover:bg-purple-600">Get
+                Started</button>
+        </div>
+    </section>
+
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-gray-800 p-8 rounded-lg w-full max-w-md">
+            <h2 id="modalTitle" class="text-2xl font-bold text-purple-400 mb-4">Athlete Registration</h2>
+            <form id="registrationForm" class="space-y-4">
+                <input type="text" placeholder="Full Name"
+                    class="w-full p-2 rounded-md bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <input type="email" placeholder="Email Address"
+                    class="w-full p-2 rounded-md bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <input type="tel" placeholder="Phone Number"
+                    class="w-full p-2 rounded-md bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <input type="password" placeholder="Password"
+                    class="w-full p-2 rounded-md bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <button type="button" onclick="sendOTP()"
+                    class="w-full bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-md font-semibold">Send
+                    OTP</button>
+                <input type="text" id="otpField" placeholder="Enter OTP"
+                    class="w-full p-2 rounded-md bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 hidden">
+                <button type="submit" onclick="verifyOTP()"
+                    class="w-full bg-green-500 hover:bg-green-600 text-white p-2 rounded-md font-semibold hidden"
+                    id="verifyButton">Verify OTP & Register</button>
+            </form>
+            <button onclick="hideModal()" class="mt-4 text-gray-400 hover:text-gray-300">Close</button>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-800">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-purple-400">About AthleteAuth</h2>
+            <p class="mt-4 text-lg text-gray-300">AthleteAuth is dedicated to supporting athletes across all sports and
+                levels. Our platform connects athletes to valuable resources, such as career opportunities, financial
+                support, and a community that understands the unique journey of athletic professionals. Join us in
+                transforming your potential into powerful achievements and building a lasting career.</p>
+            <div class="mt-8 grid sm:grid-cols-2 gap-8">
+                <div class="bg-gray-700 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-purple-300">Our Mission</h3>
+                    <p class="mt-2 text-gray-400">We aim to create a thriving ecosystem for athletes by connecting them
+                        with opportunities and a supportive network, helping them reach new career heights.</p>
+                </div>
+                <div class="bg-gray-700 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold text-purple-300">Our Vision</h3>
+                    <p class="mt-2 text-gray-400">We envision a world where every athlete has access to resources,
+                        recognition, and support to excel both on and off the field.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-gray-900">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-purple-400">What We Offer</h2>
+            <div class="grid gap-8 mt-10 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="p-6 bg-gray-700 rounded-lg text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2751/2751706.png" alt="Job Opportunities"
+                        class="mx-auto mb-4 h-16 w-16">
+                    <h3 class="text-xl font-semibold text-purple-300">Job Opportunities</h3>
+                    <p class="mt-2 text-gray-400">Find career opportunities with sports organizations tailored for
+                        athletes.</p>
+                </div>
+                <div class="p-6 bg-gray-700 rounded-lg text-center">
+                    <img src="Fund-PNG-Cutout-removebg-preview.png" alt="Funding Support"
+                        class="mx-auto mb-4 h-16 w-16">
+                    <h3 class="text-xl font-semibold text-purple-300">Funding Support</h3>
+                    <p class="mt-2 text-gray-400">Access scholarships, sponsorships, and financial assistance.</p>
+                </div>
+                <div class="p-6 bg-gray-700 rounded-lg text-center">
+                    <img src="Gold-Medal-Transparent-File-removebg-preview.png" alt="Recognition"
+                        class="mx-auto mb-4 h-16 w-16">
+                    <h3 class="text-xl font-semibold text-purple-300">Recognition Platform</h3>
+                    <p class="mt-2 text-gray-400">Showcase your achievements and get recognized by top organizations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-800">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-purple-400">Contact Us</h2>
+            <p class="mt-4 text-gray-400">Have questions or need support? Reach out to us anytime.</p>
+            <div class="mt-8 text-left">
+                <p class="text-lg"><strong>Email:</strong> AthleteAuth@gmail.com</p>
+                <p class="text-lg"><strong>Phone:</strong> +91 9899033840</p>
+                <p class="text-lg"><strong>Address:</strong> GSCV, Varun Marg, Defense Colony, 110024</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GSAP ScrollTrigger for Navbar Visibility and Smooth Animations -->
+    <script>
+        gsap.from("#hero-title", { opacity: 0, y: 20, duration: 1, delay: 0.5 });
+        gsap.from("#hero-text", { opacity: 0, y: 20, duration: 1, delay: 0.7 });
+
+        gsap.utils.toArray(".p-6").forEach((el) => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 80%",
+                },
+            });
+        });
+
+        gsap.to("#navbar", {
+            backgroundColor: "#1a1a2e",
+            duration: 0.5,
+            scrollTrigger: {
+                trigger: "#home",
+                start: "bottom top",
+                toggleActions: "play none none reverse",
+            },
+        });
+
+        function showLoginModal(type) {
+            document.getElementById('registrationModal').classList.remove('hidden');
+            document.getElementById('modalTitle').textContent = type === 'athlete' ? 'Athlete Registration' : 'Employer Registration';
+        }
+
+        function hideModal() {
+            document.getElementById('registrationModal').classList.add('hidden');
+            document.getElementById('otpField').classList.add('hidden');
+            document.getElementById('verifyButton').classList.add('hidden');
+        }
+
+        function sendOTP() {
+            // Mock OTP send process, replace with actual API call
+            alert('OTP has been sent to your phone.');
+            document.getElementById('otpField').classList.remove('hidden');
+            document.getElementById('verifyButton').classList.remove('hidden');
+        }
+
+        function verifyOTP() {
+            // Mock OTP verification, replace with actual verification logic
+            alert('OTP Verified! Registration Successful.');
+            hideModal();
+        }
+    </script>
+</body>
+
+</html>
